@@ -1,14 +1,12 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
-import { useHideMenu } from "../hooks/useHideMenu";
 import { useContext } from "react/cjs/react.development";
 import { UiContext } from "../context/UiContext";
 
 const { Text, Title } = Typography;
 
 const CreateTicketPage = () => {
-	// useHideMenu(true);
 	const { hideMenu } = useContext(UiContext);
 	console.log("hideMenu", hideMenu);
 

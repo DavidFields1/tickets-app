@@ -1,35 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CloseCircleOutlined, RightOutlined } from "@ant-design/icons";
 import { Row, Col, Typography, Button, Divider } from "antd";
-import { useHideMenu } from "../hooks/useHideMenu";
+import { useNavigate } from "react-router-dom";
+import { getAdminStorage } from "../helpes/getAdminStorage";
 
 const { Text, Title } = Typography;
 
 const AdminPage = () => {
-	// useHideMenu(false);
 	const navigate = useNavigate();
 	const [admin] = useState(getAdminStorage());
 
 	const logout = () => {
-		localStorage.clear();
-		navigate("/");
+		localStorage.removeItem("name");
+		localStorage.removeItem("desk");
+		navigate("/login");
 	};
 
 	const nextTicket = () => {
 		console.log("next ticket");
 	};
 
-	if (!admin.name) {
-		navigate("/login");
-	}
+	useEffect(() => {
+		if (!admin.name) {
+			navigate("/login");
+		}
+	}, [admin.name, navigate]);
 
 	return (
 		<>
 			<Row>
 				<Col span={20}>
-					<Title level={2}>{user.name}</Title>
+					<Title level={2}>{admin.name}</Title>
 					<Text>Working on desktop: </Text>
-					<Text type="success">{user.desktop}</Text>
+					<Text type="success">{admin.desk}</Text>
 				</Col>
 				<Col span={4} align="right">
 					<Button shape="round" type="danger" onClick={logout}>

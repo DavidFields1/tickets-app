@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Form,
 	Input,
@@ -18,19 +18,20 @@ const LogInPage = () => {
 	const [admin] = useState(getAdminStorage());
 
 	const onFinish = ({ name, number }) => {
-		navigate("/admin");
-
 		localStorage.setItem("name", name);
 		localStorage.setItem("desk", number);
+		navigate("/admin");
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log("Failed:", errorInfo);
 	};
 
-	if (admin.name) {
-		navigate("/admin");
-	}
+	useEffect(() => {
+		if (admin.name.length > 0) {
+			navigate("/admin");
+		}
+	}, [admin.name.length, navigate]);
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
 	UserOutlined,
@@ -11,12 +11,13 @@ import QueuePage from "./QueuePage";
 import CreateTicketPage from "./CreateTicketPage";
 import AdminPage from "./AdminPage";
 import { UiContext } from "../context/UiContext";
+import { getAdminStorage } from "../helpes/getAdminStorage";
 
 const { Sider, Content } = Layout;
 
 const RouterPage = () => {
 	const { menuState } = useContext(UiContext);
-
+	const [admin] = useState(getAdminStorage());
 	return (
 		<Layout>
 			<Sider
@@ -28,7 +29,11 @@ const RouterPage = () => {
 				<div className="logo" />
 				<Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
 					<Menu.Item key="1" icon={<UserOutlined />}>
-						<Link to="/login">Log In</Link>
+						{admin.name ? (
+							<Link to="/admin">Admin</Link>
+						) : (
+							<Link to="/login">Log In</Link>
+						)}
 					</Menu.Item>
 					<Menu.Item key="2" icon={<VideoCameraOutlined />}>
 						<Link to="/queue">Queue</Link>
