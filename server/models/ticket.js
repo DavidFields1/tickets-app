@@ -8,3 +8,5 @@ class Ticket {
 		this.agent = null;
 	}
 }
+
+module.exports = Ticket;

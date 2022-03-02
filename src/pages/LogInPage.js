@@ -9,7 +9,7 @@ import {
 	Divider,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import { getAdminStorage } from "../helpes/getAdminStorage";
+import { getAdminStorage } from "../helpers/getAdminStorage";
 const { Title, Text } = Typography;
 
 const LogInPage = () => {

@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CloseCircleOutlined, RightOutlined } from "@ant-design/icons";
 import { Row, Col, Typography, Button, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
-import { getAdminStorage } from "../helpes/getAdminStorage";
+import { getAdminStorage } from "../helpers/getAdminStorage";
+import { SocketContext } from "../context/socketContext";
 
 const { Text, Title } = Typography;
 
 const AdminPage = () => {
 	const navigate = useNavigate();
 	const [admin] = useState(getAdminStorage());
+
+	const { socket } = useContext(SocketContext);
+	const [ticket, setTicket] = useState(null);
 
 	const logout = () => {
 		localStorage.removeItem("name");
@@ -17,7 +21,9 @@ const AdminPage = () => {
 	};
 
 	const nextTicket = () => {
-		console.log("next ticket");
+		socket.emit("nextTicket", admin, (ticket) => {
+			setTicket(ticket);
+		});
 	};
 
 	useEffect(() => {
@@ -46,7 +52,7 @@ const AdminPage = () => {
 				<Col>
 					<Text>Attending ticket number: </Text>
 					<Text style={{ fontSize: 30 }} type="danger">
-						5
+						{ticket ? ticket.number : "-"}
 					</Text>
 				</Col>
 			</Row>

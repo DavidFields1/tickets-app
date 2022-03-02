@@ -1,36 +1,26 @@
-const BandList = require("./band-list");
-
+const TicketList = require("./ticket-list");
 class Sockets {
 	constructor(io) {
 		this.io = io;
-		this.bandList = new BandList();
+		this.ticketList = new TicketList();
 
 		this.socketEvents();
 	}
 
 	socketEvents() {
 		this.io.on("connection", (socket) => {
-			console.log("Client connected");
-			socket.emit("band-list", this.bandList.getBands());
+			console.log("socket connected");
 
-			socket.on("band-voted", (id) => {
-				this.bandList.increaseVotes(id);
-				this.io.emit("band-list", this.bandList.getBands());
+			socket.on("newTicket", (data, callback) => {
+				const newTicket = this.ticketList.createTicket();
+				callback(newTicket);
 			});
 
-			socket.on("change-name", (id, newName) => {
-				this.bandList.changeBandName(id, newName);
-				this.io.emit("band-list", this.bandList.getBands());
-			});
+			socket.on("nextTicket", ({ name, desk }, callback) => {
+				const nextTicket = this.ticketList.attendTicket(name, desk);
+				callback(nextTicket);
 
-			socket.on("add-band", (name) => {
-				this.bandList.addBand(name);
-				this.io.emit("band-list", this.bandList.getBands());
-			});
-
-			socket.on("remove-band", (id) => {
-				this.bandList.removeBand(id);
-				this.io.emit("band-list", this.bandList.getBands());
+				this.io.emit("ticketList", this.ticketList.lastTickets);
 			});
 		});
 	}

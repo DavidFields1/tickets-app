@@ -3,22 +3,22 @@ const Ticket = require("./ticket");
 class TicketList {
 	constructor() {
 		this.lastTicket = 0;
-		this.pendingTicker = [];
+		this.pendingTickets = [];
 		this.tickets = [];
 	}
 
-	getNextNumber() {
+	get nextNumber() {
 		this.lastTicket++;
 		return this.lastTicket;
 	}
 
-	getLastTickets() {
+	get lastTickets() {
 		return this.tickets.slice(0, 13);
 	}
 
 	createTicket() {
-		const newTicket = new Ticket(this.getNextNumber());
-		this.tickets.push(newTicket);
+		const newTicket = new Ticket(this.nextNumber);
+		this.pendingTickets.push(newTicket);
 		return newTicket;
 	}
 
@@ -27,11 +27,13 @@ class TicketList {
 			return null;
 		}
 
-		const nextTicket = this.tickets.shift();
+		const nextTicket = this.pendingTickets.shift();
+
 		nextTicket.agent = admin;
 		nextTicket.desk = desk;
 
 		this.tickets.unshift(nextTicket);
+
 		return nextTicket;
 	}
 }

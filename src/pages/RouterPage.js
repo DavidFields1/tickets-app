@@ -11,7 +11,7 @@ import QueuePage from "./QueuePage";
 import CreateTicketPage from "./CreateTicketPage";
 import AdminPage from "./AdminPage";
 import { UiContext } from "../context/UiContext";
-import { getAdminStorage } from "../helpes/getAdminStorage";
+import { getAdminStorage } from "../helpers/getAdminStorage";
 
 const { Sider, Content } = Layout;
 
